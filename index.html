@@ -1,0 +1,87 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+    
+      $("#btnShowCurrency").click(function (e) {
+    
+          var user_key = $('#user_key').val();
+          var urlWithVar    = 'http://api.nbp.pl/api/exchangerates/rates/a/' + currencyCode + '/' + currencyDate + '/?format=json';
+          var urlWithoutVar = 'http://api.nbp.pl/api/exchangerates/rates/a/usd/2018-03-26/?format=json';
+          $.ajax({
+            url: urlWithVar,
+            type: "GET",
+            dataType: "json",
+            error: function(xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+    
+             },
+            success: function (parsed_json) {
+               var currency = parsed_json['currency'];
+              var code = parsed_json['code'];
+              var mid = parsed_json['rates']['0']['mid'];
+              var effectiveDate = parsed_json['rates']['0']['effectiveDate'];
+              alert("Average exchange rate for: " + currency + " [" + code + "]" + ", day: " + effectiveDate + ", is: " + mid);}
+    
+              });
+    
+    
+          });
+    });
+    </script>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+  <div class="bootstrap-table bootstrap5">
+    <div class="fixed-table-toolbar">
+      <div class="fixed-table-body">
+        <table id="table" data-toggle="table" data-height="860" data-ajax="ajaxRequest" data-search="true" data-side-pagination="server" 
+        data-pagination="true" class="table table-bordered table-hover" style="margin-top: -49px;">
+          <thead>
+            <tr>
+              <th data-field="name">
+                <div class="th-inner ">Name</div>
+                <div class="fht-cell"></div>
+              </th>
+              <th data-field="desc">
+                <div class="th-inner ">Description</div>
+                <div class="fht-cell"></div>
+              </th>
+              <th data-field="price">
+                <div class="th-inner ">Price</div>
+                <div class="fht-cell"></div>
+              </th>
+            </tr>
+          </thead>
+        </table>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    // your custom ajax request here
+    function ajaxRequest(params) {
+      var url = 'https://globex-catalog-product-3scale-user1-apicast-production.apps.cluster-sh2dk.sh2dk.sandbox29.opentlc.com/services/products?user_key=3ec5145683cb866d47a7f1b6d555334c'
+      $.get(url).then(function (res) {
+        params.success(res.content)
+      })
+    }
+  </script>
+
+</body>
+
+</html>
